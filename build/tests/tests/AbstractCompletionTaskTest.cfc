@@ -37,8 +37,9 @@ component extends="testbox.system.BaseSpec"{
 				var factory = executorCompletionService.getObjectFactory();
 				var proxy1 = factory.createSubmittableProxy(task1);
 				javaCompletionService.submit(proxy1);
-				sleep(10);
+				sleep(1000);
 				completionTask.run();
+				sleep(1000);
 
 				var lastError = completionTask.getLastError();
 				expect( FindNoCase( "intentional error", lastError.message ) ).toBeTrue();
