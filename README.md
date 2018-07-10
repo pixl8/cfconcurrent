@@ -1,6 +1,18 @@
+# THIS IS A FORK
+
+This is a fork of Marc Esher's awesome library found here: [https://github.com/marcesher/cfconcurrent](https://github.com/marcesher/cfconcurrent). The reason for this fork are:
+
+* The original repo hasn't been updated in 5 years and we believe Marc is busy on other things other than CFML
+* We wanted to include this library in our Projects and wanted a "modern" way to include it using Forgebox packages
+* We wanted to allow development to continue
+
+We have reached out to Marc and hopefully we can get these changes merged at some point, or potentially transfer maintenance so that we can continue to drive forward with his blessing!
+
+# Warnings
+
 **WARNING**: A user recently discovered that a massive memory leak exists when running this on CF9. Therefore, **it is not safe to use this library on Adobe ColdFusion 9**. The problem is not in the library but in the interaction between Java executors and ColdFusion. I will attempt to work with Adobe to identify a fix.  ColdFusion 10 is unaffected and behaves as expected.
 
-**Lucee 5**: As of Lucee 5.2.7, CFConcurrent does not work due to the Lucee bug [LDEV-1778](https://luceeserver.atlassian.net/browse/LDEV-1778). When this is resolved, CFConcurrent should work perfectly with Lucee 5.
+**LUCEE 5**: As of Lucee 5.2.7, CFConcurrent does not work due to the Lucee bug [LDEV-1778](https://luceeserver.atlassian.net/browse/LDEV-1778). When this is resolved, CFConcurrent should work perfectly with Lucee 5.
 
 Welcome to CFConcurent
 ======================
