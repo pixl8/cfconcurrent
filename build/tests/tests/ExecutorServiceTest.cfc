@@ -102,7 +102,7 @@ component extends="testbox.system.BaseSpec"{
 				expect( task.getResults().runCount ).toBe( 0 );
 
 				service.execute( task );
-				sleep(2);
+				sleep(1000);
 
 				expect( task.getResults().runCount ).toBe( 1 );
 			} );
