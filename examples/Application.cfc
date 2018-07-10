@@ -1,7 +1,9 @@
 component{
 
-	this.name = "cfconcurrent";
+	this.name = "cfconcurrentexamples";
 	root = getDirectoryFromPath(getCurrentTemplatePath());
+	this.mappings[ "/cfconcurrent" ] = ExpandPath( root & "/../cfconcurrent" );
+
 
 	function onApplicationStart(){
 	}

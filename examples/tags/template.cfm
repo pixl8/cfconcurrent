@@ -61,13 +61,12 @@
 	          <div class="well sidebar-nav">
 	            <ul class="nav nav-list">
 	              <li class="nav-header">Examples</li>
-	              <li><a href="#root#examples/ExecutorService">Executor Service</a></li>
-	              <li><a href="#root#examples/ExecutorCompletionService">Executor Completion Service</a></li>
-	              <li><a href="#root#examples/ScheduledThreadPoolExecutor">Scheduled Executor</a></li>
+	              <li><a href="#root#ExecutorService">Executor Service</a></li>
+	              <li><a href="#root#ExecutorCompletionService">Executor Completion Service</a></li>
+	              <li><a href="#root#ScheduledThreadPoolExecutor">Scheduled Executor</a></li>
 	              <li><a href="#root#ormInExecutor">Using ORM in an Executor Service</a></li>
-	              <li><a href="#root#examples/stopAll.cfm">Stop any running Examples services</a></li>
+	              <li><a href="#root#stopAll.cfm">Stop any running Examples services</a></li>
 	              <li class="nav-header">Deploying CFConcurrent</li>
-	              <li><a href="#root#examples/buildForDistribution.cfm">Build a minimized zip for distribution</a></li>
 	            </ul>
 	          </div><!--/.well -->
 	        </div><!--/span3-->

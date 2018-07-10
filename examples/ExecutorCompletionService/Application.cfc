@@ -1,6 +1,8 @@
-component extends="cfconcurrent.Application"{
+component{
 
 	this.name = "cfconcurrent_executorCompletionService";
+	root = getDirectoryFromPath(getCurrentTemplatePath());
+	this.mappings[ "/cfconcurrent" ] = ExpandPath( root & "/../../cfconcurrent" );
 
 	function onApplicationStart(){
 		writeLog("Starting #application.applicationName# Completion Service");

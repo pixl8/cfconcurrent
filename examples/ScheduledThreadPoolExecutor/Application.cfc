@@ -1,6 +1,8 @@
-component extends="cfconcurrent.Application"{
+component{
 
 	this.name = "cfconcurrent_ScheduledThreadPoolExecutor";
+	root = getDirectoryFromPath(getCurrentTemplatePath());
+	this.mappings[ "/cfconcurrent" ] = ExpandPath( root & "/../../cfconcurrent" );
 
 
 	function onApplicationStart(){
