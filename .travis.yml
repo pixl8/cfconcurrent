@@ -9,3 +9,6 @@ install:
   - unzip /tmp/box.zip -d /tmp/bin
 script:
   - ./build/tests/runtests.sh && /build/publish.sh
+cache:
+  directories:
+    - $HOME/.CommandBox
