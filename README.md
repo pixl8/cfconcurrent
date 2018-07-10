@@ -1,5 +1,7 @@
 **WARNING**: A user recently discovered that a massive memory leak exists when running this on CF9. Therefore, **it is not safe to use this library on Adobe ColdFusion 9**. The problem is not in the library but in the interaction between Java executors and ColdFusion. I will attempt to work with Adobe to identify a fix.  ColdFusion 10 is unaffected and behaves as expected.
 
+**Lucee 5**: As of Lucee 5.2.7, CFConcurrent does not work due to the Lucee bug [LDEV-1778](https://luceeserver.atlassian.net/browse/LDEV-1778). When this is resolved, CFConcurrent should work perfectly with Lucee 5.
+
 Welcome to CFConcurent
 ======================
 
@@ -7,7 +9,7 @@ CFConcurrent simplifies the use of the Java Concurrency Framework
 ([java tutorial](http://docs.oracle.com/javase/tutorial/essential/concurrency/executors.html) | [javadoc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/package-summary.html))
 in ColdFusion applications. 
 
-CFConcurrent runs on **CF10+**.
+CFConcurrent runs on **CF10+** and **Lucee 4.5.5**.
 
 
 Although CFThread is suitable for management-free fire-and-forget concurrency, robust production applications
@@ -59,10 +61,7 @@ Doug Lea began `util.concurrent` in 1998, just a few years after the release of 
 
 This changed in 2011, when Mark Mandel tweaked the Java proxy object creation facility available in JavaLoader to enable CFC instances to be passed to invocation methods in the Java concurrency framework. With this ability, "concurrency as it should be" is now possible in ColdFusion. 
 
-Roadmap
---------
-
-ForkJoinPool -- I'll be adding a ForkJoinPool service along with examples. 
+In 2018, Pixl8 have forked this repository in order to help maintain it and better package it for applications that work with ForgeBox / CommandBox.
 
 
 Support or Contact
