@@ -1,0 +1,11 @@
+language: java
+jdk:
+  - oraclejdk8
+before_install:
+  - mkdir /tmp/bin
+  - export PATH=$PATH:/tmp/bin
+install:
+  - curl --location 'https://www.ortussolutions.com/parent/download/commandbox/type/bin' -o /tmp/box.zip
+  - unzip /tmp/box.zip -d /tmp/bin
+script:
+  - ./build/tests/runttests.sh && /build/publish.sh

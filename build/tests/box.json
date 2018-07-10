@@ -3,6 +3,9 @@
         "testbox":"2.7.0+167"
     },
     "installPaths":{
-        "testbox":"testbox"
+        "testbox":"testbox/"
+    },
+    "testbox":{
+        "runner":"http://127.0.0.1:6789/runtests.cfm"
     }
 }
