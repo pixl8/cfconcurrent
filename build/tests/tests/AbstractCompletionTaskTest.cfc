@@ -41,7 +41,7 @@ component extends="testbox.system.BaseSpec"{
 				completionTask.run();
 
 				var lastError = completionTask.getLastError();
-				expect( lastError.cause.message ).toBe( "Intentional Error" );
+				expect( FindNoCase( "intentional error", lastError.message ) ).toBeTrue();
 			} );
 		} );
 	}
