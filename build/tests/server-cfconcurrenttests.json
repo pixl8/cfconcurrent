@@ -3,13 +3,9 @@
     "openbrowser":false,
     "trayEnable":false,
     "web":{
-        "webroot":"/",
+        "webroot":"./",
         "http":{
             "port":"6789"
         }
-    },
-    "app":{
-        "cfengine":"lucee@4.5.5"
-    },
-    "save":"false"
+    }
 }

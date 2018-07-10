@@ -16,7 +16,7 @@ for engine in "${engines[@]}"
 do
 	echo "Running tests on engine: $engine, using directory: $CWD and server config: $CWD/server-cfconcurrenttests.json";
 
-	box start directory="$CWD" serverConfigFile="$CWD/server-cfconcurrenttests.json" cfengine="$engine" save=false;
+	box start directory="$CWD" serverConfigFile="$CWD/server-cfconcurrenttests.json" cfengine="$engine" saveSettings=false;
 	box testbox run verbose=false || exitcode=1
 	box stop name="cfconcurrenttests"
 done

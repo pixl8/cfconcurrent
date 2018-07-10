@@ -7,7 +7,7 @@ component extends="testbox.system.BaseSpec"{
 				executorCompletionService.start();
 
 		 		javaCompletionService = executorCompletionService.getExecutorCompletionService();
-				completionTask = new fixture.variablesCollectingTaskFixture( javaCompletionService );
+				completionTask = new fixture.VariablesCollectingTaskFixture( javaCompletionService );
 			} );
 
 			afterEach( function(){
@@ -15,8 +15,8 @@ component extends="testbox.system.BaseSpec"{
 			} );
 
 			it( "should poll completed tasks", function(){
-				var task1 = new fixture.simpleCallableTask("task1");
-				var task2 = new fixture.simpleCallableTask("task2");
+				var task1 = new fixture.SimpleCallableTask("task1");
+				var task2 = new fixture.SimpleCallableTask("task2");
 				var factory = executorCompletionService.getObjectFactory();
 
 				var proxy1 = factory.createSubmittableProxy(task1);
@@ -41,8 +41,7 @@ component extends="testbox.system.BaseSpec"{
 				completionTask.run();
 
 				var lastError = completionTask.getLastError();
-
-				expect( lastError.message ).toBe( "lucee.runtime.exp.PageRuntimeException: Intentional Error" );
+				expect( lastError.cause.message ).toBe( "Intentional Error" );
 			} );
 		} );
 	}
