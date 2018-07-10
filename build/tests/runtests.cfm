@@ -8,5 +8,6 @@
 
 	results = Trim( testbox.run() );
 
-	content reset=true; WriteOutput( results ); abort;
 </cfscript>
+<cfcontent reset=true />
+<cfoutput>#results#</cfoutput>
