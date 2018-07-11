@@ -1,6 +1,8 @@
-component extends="cfconcurrent.Application"{
+component{
 
 	this.name = "cfconcurrent_executorService";
+	root = getDirectoryFromPath(getCurrentTemplatePath());
+	this.mappings[ "/cfconcurrent" ] = ExpandPath( root & "/../../cfconcurrent" );
 
 	function onApplicationStart(){
 		//a maxConcurrent of 0 will cause the service to default to the number of Available Processors + 1

@@ -2,7 +2,7 @@
 <cfparam name="url.sleepTime" default="100">
 <cfparam name="url.taskCount" default="25">
 
-<cfimport prefix="tags" taglib="../../tags"/>
+<cfimport prefix="tags" taglib="../tags"/>
 
 <cfset idStub = createUUID()>
 
