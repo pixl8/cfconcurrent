@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cd `dirname $0`
+cd ../../
 
 if  [[ $TRAVIS_PULL_REQUEST == 'true' ]] ; then
 	echo "Finished (not publishing due to running in a pull request)."
