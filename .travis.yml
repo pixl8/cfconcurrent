@@ -9,7 +9,7 @@ install:
   - unzip /tmp/box.zip -d /tmp/bin
   - box config set nonInteractiveShell=true
 script:
-  - ./build/tests/runtests.sh && /build/publish.sh
+  - ./build/tests/runtests.sh && ./build/publish.sh
 cache:
   directories:
     - $HOME/.CommandBox
