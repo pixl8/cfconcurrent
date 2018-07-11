@@ -1,6 +1,8 @@
-component extends="cfconcurrent.Application"{
+component{
 
 	this.name = "cfconcurrent_ormInExecutor";
+	root = getDirectoryFromPath(getCurrentTemplatePath());
+	this.mappings[ "/cfconcurrent" ] = ExpandPath( root & "/../../cfconcurrent" );
 
 	//for ORM tests and examples
 	this.ormEnabled = true;
@@ -20,7 +22,7 @@ component extends="cfconcurrent.Application"{
 			applicationStop();
 			onApplicationStop();
 		}
-		
+
 		if( structKeyExists(url, "reinit") ){
 			location( "index.cfm", false );
 		}

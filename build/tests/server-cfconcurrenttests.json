@@ -1,0 +1,11 @@
+{
+    "name":"cfconcurrenttests",
+    "openbrowser":false,
+    "trayEnable":false,
+    "web":{
+        "webroot":"./",
+        "http":{
+            "port":"6789"
+        }
+    }
+}

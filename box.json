@@ -1,0 +1,34 @@
+{
+    "name":"CFConcurrent",
+    "type":"projects",
+    "version":"2.0.0",
+    "location":"https://github.com/pixl8/cfconcurrent/archive/v2.0.0.zip",
+    "author":"Marc Esher",
+    "homepage":"https://github.com/pixl8/cfconcurrent",
+    "documentation":"https://github.com/pixl8/cfconcurrent/wiki",
+    "repository":{
+        "type":"github",
+        "URL":"https://github.com/pixl8/cfconcurrent"
+    },
+    "bugs":"https://github.com/pixl8/cfconcurrent/issues",
+    "slug":"cfconcurrent",
+    "shortDescription":"A boilerplate-reduction library for using the Java Concurrency Framework in ColdFusion applications",
+    "description":"",
+    "keywords":"FOSS,Java,Concurrency",
+    "private":false,
+    "projectURL":"https://github.com/pixl8/cfconcurrent",
+    "license":[
+        {
+            "type":"MIT"
+        }
+    ],
+    "ignore":[
+        ".git/*",
+        ".gitignore",
+        ".travis.yml",
+        ".twgit_features_subject",
+        "*.sh",
+        "build/*",
+        "examples/*"
+    ]
+}

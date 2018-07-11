@@ -62,7 +62,7 @@ for( future in futures ){
 </cfscript>
 
 
-<cfimport prefix="tags" taglib="../../tags"/>
+<cfimport prefix="tags" taglib="../tags"/>
 
 <tags:template root="../../">
 

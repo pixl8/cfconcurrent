@@ -11,7 +11,7 @@ task = new QueryTask( getTickCount() );
 future = application.executorService.submit( task );
 try{
 	callResultWithTimeout = future.get( url.waitTime, objectFactory.MILLISECONDS );
-	
+
 } catch(any e){
 	callResultWithTimeout = e;
 	future.cancel(true);
@@ -22,7 +22,7 @@ try{
 </cfscript>
 
 
-<cfimport prefix="tags" taglib="../../tags"/>
+<cfimport prefix="tags" taglib="../tags"/>
 
 <tags:template root="../../">
 
@@ -46,7 +46,7 @@ try{
 			<p>NOTE: It is the expected, <a href="http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Future.html#get(long, java.util.concurrent.TimeUnit)" target="_blank">documented behavior</a> that it'll throw an exception when the get() times out prior to completing</p>
 
 			<cfdump var="#callResultWithTimeout#" expand="false" label="Click to Expand">
-			
+
 			<cfdump var="#task.getResult()#">
 
 	    </div><!--/span-->
