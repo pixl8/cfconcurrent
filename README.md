@@ -73,7 +73,9 @@ Either:
 
 ```box install cfconcurrent```
 
-Or, download/clone the repository directly. **There should be a `/cfconcurrent` mapping pointing at the `/cfconcurrent` subdirectory of this project**.
+Or, download/clone the repository directly. 
+
+You may need to create a `/cfconcurrent` mapping if the installation directory is not directly beneath your webroot.
 
 
 Gratitude

@@ -19,7 +19,8 @@
     "projectURL":"https://github.com/pixl8/cfconcurrent",
     "license":[
         {
-            "type":"MIT"
+            "type":"MIT",
+            "URL":"https://github.com/pixl8/cfconcurrent/blob/stable/LICENSE.txt"
         }
     ],
     "ignore":[

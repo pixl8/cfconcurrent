@@ -2,7 +2,7 @@ component{
 
 	this.name = "cfconcurrent_ormInExecutor";
 	root = getDirectoryFromPath(getCurrentTemplatePath());
-	this.mappings[ "/cfconcurrent" ] = ExpandPath( root & "/../../cfconcurrent" );
+	this.mappings[ "/cfconcurrent" ] = ExpandPath( root & "/../.." );
 
 	//for ORM tests and examples
 	this.ormEnabled = true;
