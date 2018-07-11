@@ -1,6 +1,8 @@
 Welcome to CFConcurent
 ======================
 
+[![Build Status](https://travis-ci.org/pixl8/cfconcurrent.svg?branch=stable "Stable")](https://travis-ci.org/pixl8/cfconcurrent)
+
 CFConcurrent simplifies the use of the Java Concurrency Framework
 ([java tutorial](http://docs.oracle.com/javase/tutorial/essential/concurrency/executors.html) | [javadoc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/package-summary.html))
 in ColdFusion applications. 
