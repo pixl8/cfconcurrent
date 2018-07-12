@@ -9,7 +9,13 @@ component extends="AbstractExecutorService" accessors="true" output="false"{
 	  @maxConcurrent The maximum number of tasks which will be run at one time. A value of 0 will cause the maxConcurrent to be calculated as Number of CPUs + 1
 	  @maxWorkQueueSize
 	*/
-	public function init( serviceName, numeric maxConcurrent=0, numeric maxWorkQueueSize=10000, objectFactory="#createObject('component', 'ObjectFactory').init()#" ){
+	public function init(
+		  string  serviceName
+		, numeric maxConcurrent    = 0
+		, numeric maxWorkQueueSize = 10000
+		, any     objectFactory    = createObject('component', 'ObjectFactory').init()
+		, string  threadPoolName   = "CFConcurrentThreadPool"
+	){
 
 		super.init( serviceName, objectFactory );
 		structAppend( variables, arguments );
@@ -25,7 +31,7 @@ component extends="AbstractExecutorService" accessors="true" output="false"{
 		variables.workQueue = objectFactory.createQueue( maxWorkQueueSize );
 
 		//TODO: extract this policy and make it settable
-		variables.workExecutor = objectFactory.createThreadPoolExecutor( maxConcurrent, workQueue, "DiscardPolicy" );
+		variables.workExecutor = objectFactory.createThreadPoolExecutor( maxConcurrent, workQueue, "DiscardPolicy", threadPoolName );
 		setSubmissionTarget( workExecutor );
 
 		//store the executor for sane destructability
