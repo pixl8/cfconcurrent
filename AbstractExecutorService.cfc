@@ -117,8 +117,8 @@ component output="false" accessors="true"{
 	*/
 	public function getApplicationStorageScope(){
 		var scope = getBaseStorageScope();
-		if( NOT structKeyExists( scope, application.applicationname ) ){
-			scope[application.applicationname] = {};
+		if( NOT structKeyExists( scope, getApplicationName() ) ){
+			scope[getApplicationName()] = {};
 		}
 		return scope;
 	}
@@ -175,5 +175,15 @@ component output="false" accessors="true"{
 		}
 
 		return this;
+	}
+
+	private string function getApplicationName() {
+		if ( StructKeyExists( application, "applicationname" ) ) {
+			return application.applicationName;
+		} else if ( StructKeyExists( application, "name" ) ) {
+			return application.name;
+		}
+
+		return "CFConcurrentDefaultAppNameFor-" & ExpandPath( "/" );
 	}
 }
