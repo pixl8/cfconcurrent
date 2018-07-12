@@ -2,10 +2,9 @@ component output="false" accessors="true"{
 
 	property name="cfcDynamicProxy";
 
-	supportsNativeProxy = structKeyExists( getFunctionList(), "createDynamicProxy" );
 	callableInterfaces = ["java.util.concurrent.Callable"];
 	runnableInterfaces = ["java.lang.Runnable"];
-	variables.serverScopeName = "__cfconcurrentJavaLoader";
+	threadFactoryInterfaces = ["java.util.concurrent.ThreadFactory"];
 	timeUnit = createTimeUnit();
 
 	//conveniences... we work a lot with timeunit so let's make it a bit easier
@@ -18,20 +17,7 @@ component output="false" accessors="true"{
 	this.days = timeUnit.DAYS;
 
 	public function init(){
-		if( NOT supportsNativeProxy ){
-			writeLog("Native createDynamicProxy not supported... falling back to JavaLoader. All Hail Galaxar! er... Mark Mandel!");
-			structDelete( server, variables.serverScopeName );
-			var proxyJarPath = getDirectoryFromPath( getCurrentTemplatePath() ) & "/javaloader/support/cfcdynamicproxy/lib/cfcdynamicproxy.jar";
-			var paths = [proxyJarPath];
-			server[variables.serverScopeName] = new javaloader.JavaLoader( loadPaths = paths, loadColdFusionClassPath = true );
-
-			variables.CFCDynamicProxy = getJavaloader().create( "com.compoundtheory.coldfusion.cfc.CFCDynamicProxy" );
-		}
 		return this;
-	}
-
-	public function getJavaLoader(){
-		return server[variables.serverScopeName];
 	}
 
 	public function getProcessorCount(){
@@ -46,20 +32,30 @@ component output="false" accessors="true"{
 		return createObject("java", queueClass).init( maxQueueSize );
 	}
 
-	public function createThreadPoolExecutor( maxConcurrent, workQueue, rejectionPolicy="DiscardPolicy"){
+	public function createThreadPoolExecutor( maxConcurrent, workQueue, rejectionPolicy="DiscardPolicy", threadNamePattern="CFConcurrentPool-${poolno}-Thread-${threadno}" ){
 		return createObject("java", "java.util.concurrent.ThreadPoolExecutor").init(
 			maxConcurrent,
 			maxConcurrent,
 			0,
 			timeUnit.SECONDS,
 			workQueue,
+			createThreadFactory( threadNamePattern ),
 			createRejectionPolicyByName( rejectionPolicy )
 		);
 	}
 
-	public function createScheduledThreadPoolExecutor( maxConcurrent=1, rejectionPolicy="DiscardPolicy" ){
+	public function createThreadFactory( threadNamePattern ) {
+		return CreateProxy( new ThreadFactory( arguments.threadNamePattern, this ), threadFactoryInterfaces );
+	}
+
+	public function createThreadFactoryRunnableProxy( required any runnable ) {
+		return CreateProxy( new ThreadFactoryRunnableProxy( runnable ), runnableInterfaces );
+	}
+
+	public function createScheduledThreadPoolExecutor( maxConcurrent=1, rejectionPolicy="DiscardPolicy", threadNamePattern="CFConcurrentScheduledPool-${poolno}-Thread-${threadno}" ){
 		return createObject("java", "java.util.concurrent.ScheduledThreadPoolExecutor").init(
 			maxConcurrent,
+			createThreadFactory( threadNamePattern ),
 			createRejectionPolicyByName( rejectionPolicy )
 		);
 	}
@@ -110,11 +106,7 @@ component output="false" accessors="true"{
 	}
 
 	public function createProxy( object, interfaces ){
-		if( supportsNativeProxy ){
-			return createDynamicProxy( arguments.object, arguments.interfaces );
-		} else {
-			return cfcDynamicProxy.createInstance( arguments.object, arguments.interfaces );
-		}
+		return createDynamicProxy( arguments.object, arguments.interfaces );
 	}
 
 	public function ensureRunnableTask( task ){

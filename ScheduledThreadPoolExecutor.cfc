@@ -6,16 +6,21 @@ component extends="ExecutorService" accessors="true" output="false"{
 	property name="scheduledExecutor";
 	property name="storedTasks" type="struct";
 
-	public function init( String serviceName, maxConcurrent=0, objectFactory="#createObject('component', 'ObjectFactory').init()#" ){
+	public function init(
+		  string  serviceName
+		, numeric maxConcurrent     = 0
+		, any     objectFactory     = createObject('component', 'ObjectFactory').init()
+		, string  threadNamePattern = "CFConcurrentScheduledPool-${poolno}-Thread-${threadno}"
+	){
 
 		super.init( serviceName, maxConcurrent, -1, objectFactory );
-
+		variables.threadNamePattern = arguments.threadNamePattern;
 		storedTasks = {};
 		return this;
 	}
 
 	public function start(){
-		variables.scheduledExecutor = objectFactory.createScheduledThreadPoolExecutor( maxConcurrent );
+		variables.scheduledExecutor = objectFactory.createScheduledThreadPoolExecutor( maxConcurrent=maxConcurrent, threadNamePattern=threadNamePattern );
 
 		//store the executor for sane destructability
 		storeExecutor( "scheduledExecutor", variables.scheduledExecutor );

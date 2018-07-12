@@ -25,7 +25,7 @@ component extends="testbox.system.BaseSpec"{
 				javaCompletionService.submit(proxy1);
 				javaCompletionService.submit(proxy2);
 
-				sleep(50);
+				sleep( 1000 );
 
 				completionTask.run();
 
