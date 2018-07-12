@@ -14,7 +14,7 @@ component extends="ExecutorService" accessors="true" output="false"{
 	){
 
 		super.init( serviceName, maxConcurrent, -1, objectFactory );
-
+		variables.threadPoolName = arguments.threadPoolName;
 		storedTasks = {};
 		return this;
 	}
