@@ -11,10 +11,10 @@ component extends="AbstractExecutorService" accessors="true" output="false"{
 	*/
 	public function init(
 		  string  serviceName
-		, numeric maxConcurrent    = 0
-		, numeric maxWorkQueueSize = 10000
-		, any     objectFactory    = createObject('component', 'ObjectFactory').init()
-		, string  threadPoolName   = "CFConcurrentThreadPool"
+		, numeric maxConcurrent     = 0
+		, numeric maxWorkQueueSize  = 10000
+		, any     objectFactory     = createObject('component', 'ObjectFactory').init()
+		, string  threadNamePattern = "CFConcurrentPool-${poolno}-Thread-${threadno}"
 	){
 
 		super.init( serviceName, objectFactory );
@@ -31,7 +31,7 @@ component extends="AbstractExecutorService" accessors="true" output="false"{
 		variables.workQueue = objectFactory.createQueue( maxWorkQueueSize );
 
 		//TODO: extract this policy and make it settable
-		variables.workExecutor = objectFactory.createThreadPoolExecutor( maxConcurrent, workQueue, "DiscardPolicy", threadPoolName );
+		variables.workExecutor = objectFactory.createThreadPoolExecutor( maxConcurrent, workQueue, "DiscardPolicy", threadNamePattern );
 		setSubmissionTarget( workExecutor );
 
 		//store the executor for sane destructability

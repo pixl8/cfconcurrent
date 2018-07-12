@@ -8,19 +8,19 @@ component extends="ExecutorService" accessors="true" output="false"{
 
 	public function init(
 		  string  serviceName
-		, numeric maxConcurrent  = 0
-		, any     objectFactory  = createObject('component', 'ObjectFactory').init()
-		, string  threadPoolName = "CFConcurrentScheduledThreadPool"
+		, numeric maxConcurrent     = 0
+		, any     objectFactory     = createObject('component', 'ObjectFactory').init()
+		, string  threadNamePattern = "CFConcurrentScheduledPool-${poolno}-Thread-${threadno}"
 	){
 
 		super.init( serviceName, maxConcurrent, -1, objectFactory );
-		variables.threadPoolName = arguments.threadPoolName;
+		variables.threadNamePattern = arguments.threadNamePattern;
 		storedTasks = {};
 		return this;
 	}
 
 	public function start(){
-		variables.scheduledExecutor = objectFactory.createScheduledThreadPoolExecutor( maxConcurrent=maxConcurrent, threadPoolName=threadPoolName );
+		variables.scheduledExecutor = objectFactory.createScheduledThreadPoolExecutor( maxConcurrent=maxConcurrent, threadNamePattern=threadNamePattern );
 
 		//store the executor for sane destructability
 		storeExecutor( "scheduledExecutor", variables.scheduledExecutor );

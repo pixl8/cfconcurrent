@@ -47,30 +47,30 @@ component output="false" accessors="true"{
 		return createObject("java", queueClass).init( maxQueueSize );
 	}
 
-	public function createThreadPoolExecutor( maxConcurrent, workQueue, rejectionPolicy="DiscardPolicy", threadPoolName="CFConcurrentPool" ){
+	public function createThreadPoolExecutor( maxConcurrent, workQueue, rejectionPolicy="DiscardPolicy", threadNamePattern="CFConcurrentPool-${poolno}-Thread-${threadno}" ){
 		return createObject("java", "java.util.concurrent.ThreadPoolExecutor").init(
 			maxConcurrent,
 			maxConcurrent,
 			0,
 			timeUnit.SECONDS,
 			workQueue,
-			createThreadFactory( threadPoolName ),
+			createThreadFactory( threadNamePattern ),
 			createRejectionPolicyByName( rejectionPolicy )
 		);
 	}
 
-	public function createThreadFactory( threadPoolName ) {
-		return CreateProxy( new ThreadFactory( arguments.threadPoolName, this ), threadFactoryInterfaces );
+	public function createThreadFactory( threadNamePattern ) {
+		return CreateProxy( new ThreadFactory( arguments.threadNamePattern, this ), threadFactoryInterfaces );
 	}
 
 	public function createThreadFactoryRunnableProxy( required any runnable ) {
 		return CreateProxy( new ThreadFactoryRunnableProxy( runnable ), runnableInterfaces );
 	}
 
-	public function createScheduledThreadPoolExecutor( maxConcurrent=1, rejectionPolicy="DiscardPolicy", threadPoolName="CFConcurrentScheduledPool" ){
+	public function createScheduledThreadPoolExecutor( maxConcurrent=1, rejectionPolicy="DiscardPolicy", threadNamePattern="CFConcurrentScheduledPool-${poolno}-Thread-${threadno}" ){
 		return createObject("java", "java.util.concurrent.ScheduledThreadPoolExecutor").init(
 			maxConcurrent,
-			createThreadFactory( threadPoolName ),
+			createThreadFactory( threadNamePattern ),
 			createRejectionPolicyByName( rejectionPolicy )
 		);
 	}

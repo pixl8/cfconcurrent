@@ -8,18 +8,24 @@
  */
 component {
 
-	public any function init( required string threadPoolName, required any objectFactory ) {
-		variables.threadPoolName       = arguments.threadPoolName;
+	public any function init( required string threadNamePattern, required any objectFactory ) {
+		variables.threadNamePattern    = arguments.threadNamePattern;
 		variables.defaultThreadFactory = CreateObject( "java", "java.util.concurrent.Executors" ).defaultThreadFactory();
 		variables.objectFactory        = arguments.objectFactory;
 	}
 
 	public any function newThread( required any runnable ) {
-		var proxy      = objectFactory.createThreadFactoryRunnableProxy( runnable );
-		var theThread  = defaultThreadFactory.newThread( proxy );
-		var threadName = theThread.getName();
+		var proxy           = objectFactory.createThreadFactoryRunnableProxy( runnable );
+		var theThread       = defaultThreadFactory.newThread( proxy );
+		var threadName      = theThread.getName();
+		var originalPattern = "^pool\-([0-9]+)\-thread\-([0-9]+)$";
+		var poolNumber      = ReReplaceNoCase( threadName, originalPattern, "\1" );
+		var threadNumber    = ReReplaceNoCase( threadName, originalPattern, "\2" );
 
-		theThread.setName( reReplaceNoCase( threadName, "^pool", threadPoolName ) );
+		var newName = ReplaceNoCase( threadNamePattern, "${poolno}"  , poolNumber  , "all" );
+		    newName = ReplaceNoCase( newName          , "${threadno}", threadNumber, "all" );
+
+		theThread.setName( newName );
 
 		return theThread;
 	}
