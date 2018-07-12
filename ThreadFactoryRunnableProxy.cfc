@@ -20,7 +20,7 @@ component {
 		cfsetting( requesttimeout=requesttimeout );
 
 		if ( isLucee ) {
-			include( template="updateLuceeMappings.cfm" );
+			cfinclude( template="helpers/updateLuceeMappings.cfm" );
 		}
 
 		runnable.run();
