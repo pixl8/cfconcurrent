@@ -5,6 +5,7 @@ component output="false" accessors="true"{
 	supportsNativeProxy = structKeyExists( getFunctionList(), "createDynamicProxy" );
 	callableInterfaces = ["java.util.concurrent.Callable"];
 	runnableInterfaces = ["java.lang.Runnable"];
+	threadFactoryInterfaces = ["java.util.concurrent.ThreadFactory"];
 	variables.serverScopeName = "__cfconcurrentJavaLoader";
 	timeUnit = createTimeUnit();
 
@@ -46,20 +47,30 @@ component output="false" accessors="true"{
 		return createObject("java", queueClass).init( maxQueueSize );
 	}
 
-	public function createThreadPoolExecutor( maxConcurrent, workQueue, rejectionPolicy="DiscardPolicy"){
+	public function createThreadPoolExecutor( maxConcurrent, workQueue, rejectionPolicy="DiscardPolicy", threadPoolName="CFConcurrentPool" ){
 		return createObject("java", "java.util.concurrent.ThreadPoolExecutor").init(
 			maxConcurrent,
 			maxConcurrent,
 			0,
 			timeUnit.SECONDS,
 			workQueue,
+			createThreadFactory( threadPoolName ),
 			createRejectionPolicyByName( rejectionPolicy )
 		);
 	}
 
-	public function createScheduledThreadPoolExecutor( maxConcurrent=1, rejectionPolicy="DiscardPolicy" ){
+	public function createThreadFactory( threadPoolName ) {
+		return CreateProxy( new ThreadFactory( arguments.threadPoolName, this ), threadFactoryInterfaces );
+	}
+
+	public function createThreadFactoryRunnableProxy( required any runnable ) {
+		return CreateProxy( new ThreadFactoryRunnableProxy( runnable ), runnableInterfaces );
+	}
+
+	public function createScheduledThreadPoolExecutor( maxConcurrent=1, rejectionPolicy="DiscardPolicy", threadPoolName="CFConcurrentScheduledPool" ){
 		return createObject("java", "java.util.concurrent.ScheduledThreadPoolExecutor").init(
 			maxConcurrent,
+			createThreadFactory( threadPoolName ),
 			createRejectionPolicyByName( rejectionPolicy )
 		);
 	}
