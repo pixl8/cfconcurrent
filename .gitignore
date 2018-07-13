@@ -2,3 +2,4 @@
 build/logs
 tests/logs
 examples/logs
+WEB-INF

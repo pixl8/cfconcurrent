@@ -1,29 +1,36 @@
 component {
 
 	public any function init( runnable ) {
-		variables.runnable       = arguments.runnable;
-		variables.isLucee        = StructKeyExists( server, "lucee" );
-		variables.requesttimeout = ( 60 * 60 * 24 * 365 * 100 ); // one hundred years
+		variables.runnable        = arguments.runnable;
+		variables.isLucee         = StructKeyExists( server, "lucee" );
+		variables.oneHundredYears = ( 60 * 60 * 24 * 365 * 100 );
 
-		// we have trouble with losing various mappings set with this.mappings
-		// store them here then restore them when we run
 		if ( isLucee ) {
-			variables.mappings = getApplicationSettings().mappings;
+			variables.pc = _cloneLuceePageContext();
 		}
 	}
 
 	public any function run() {
-		// set a really high request timeout for
-		// all threads run here. Avoids Lucee (and potentially ACF)
-		// trying to kill thread pool threads which it doesn't own
-		// and can't kill
-		cfsetting( requesttimeout=requesttimeout );
-
 		if ( isLucee ) {
-			cfinclude( template="helpers/updateLuceeMappings.cfm" );
+			pc.copyStateTo( getPageContext() );
 		}
 
+		cfsetting( requesttimeout=oneHundredYears );
+
 		runnable.run();
+	}
+
+	private any function _cloneLuceePageContext() {
+		var threadUtil = CreateObject( "java", "lucee.runtime.thread.ThreadUtil" );
+		var os         = CreateObject( "java", "java.io.ByteArrayOutputStream" ).init();
+
+		return threadUtil.clonePageContext(
+			  getPageContext() // pageContext
+			, os               // output stream
+			, true             // stateless
+			, false            // register PC
+			, false            // is child
+		);
 	}
 
 }
