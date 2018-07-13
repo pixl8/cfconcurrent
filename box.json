@@ -1,8 +1,8 @@
 {
     "name":"CFConcurrent",
     "type":"projects",
-    "version":"1.0.0",
-    "location":"https://github.com/pixl8/cfconcurrent/archive/v1.0.0.zip",
+    "version":"2.0.2",
+    "location":"https://github.com/pixl8/cfconcurrent/archive/v2.0.2.zip",
     "author":"Marc Esher",
     "homepage":"https://github.com/pixl8/cfconcurrent",
     "documentation":"https://github.com/pixl8/cfconcurrent/wiki",
