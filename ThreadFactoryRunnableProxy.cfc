@@ -13,6 +13,8 @@ component {
 	public any function run() {
 		if ( isLucee ) {
 			pc.copyStateTo( getPageContext() );
+			pc.release();
+			pc = "";
 		}
 
 		cfsetting( requesttimeout=oneHundredYears );
