@@ -3,7 +3,7 @@ component extends="testbox.system.BaseSpec"{
 	function run(){
 		describe( "Executor Service", function(){
 			beforeEach( function(){
-				service = new cfconcurrent.ExecutorService(serviceName="unittest");
+				service = new cfconcurrent.ExecutorService(serviceName="unittest", threadNamePattern="testpool-${poolno}-testthread-${threadno}");
 				objectFactory = service.getObjectFactory();
 				service.setLoggingEnabled( true );
 				service.start();
@@ -105,6 +105,16 @@ component extends="testbox.system.BaseSpec"{
 				sleep(1000);
 
 				expect( task.getResults().runCount ).toBe( 1 );
+			} );
+
+			it( "should allow customization of thread names", function(){
+				var task = new fixture.ThreadNameTestTask();
+				var future = service.submit( task );
+				var result = future.get();
+
+				expect( structIsEmpty( result.error ) ).toBeTrue();
+				expect( ReFindNoCase( "testpool\-[0-9]+-testthread\-[0-9]+", result.threadName ) > 0 ).toBeTrue();
+				expect( future.isDone() ).toBeTrue();
 			} );
 		} );
 	}
