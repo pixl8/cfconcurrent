@@ -6,33 +6,18 @@ component {
 		variables.oneHundredYears = ( 60 * 60 * 24 * 365 * 100 );
 
 		if ( isLucee ) {
-			variables.pc = _cloneLuceePageContext();
+			variables.appContext = getPageContext().getApplicationContext();
 		}
 	}
 
 	public any function run() {
 		if ( isLucee ) {
-			pc.copyStateTo( getPageContext() );
-			pc.release();
-			pc = "";
+			getPageContext().setApplicationContext( variables.appContext );
 		}
 
 		cfsetting( requesttimeout=oneHundredYears );
 
 		runnable.run();
-	}
-
-	private any function _cloneLuceePageContext() {
-		var threadUtil = CreateObject( "java", "lucee.runtime.thread.ThreadUtil" );
-		var os         = CreateObject( "java", "java.io.ByteArrayOutputStream" ).init();
-
-		return threadUtil.clonePageContext(
-			  getPageContext() // pageContext
-			, os               // output stream
-			, true             // stateless
-			, false            // register PC
-			, false            // is child
-		);
 	}
 
 }
