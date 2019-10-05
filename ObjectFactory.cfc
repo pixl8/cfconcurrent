@@ -97,16 +97,40 @@ component output="false" accessors="true"{
 
 	public function createRunnableProxy( object ){
 		ensureRunnableTask( object );
+		if ( _isLucee() ) {
+			return createLuceeRunnableProxy( object );
+		}
 		return createProxy( object, runnableInterfaces );
 	}
 
 	public function createCallableProxy( object ){
 		ensureCallableTask( object );
+		if ( _isLucee() ) {
+			return createLuceeCallableProxy( object );
+		}
 		return createProxy( object, callableInterfaces );
 	}
 
 	public function createProxy( object, interfaces ){
 		return createDynamicProxy( arguments.object, arguments.interfaces );
+	}
+
+	public function createLuceeRunnableProxy( object ) {
+		return CreateObject( "java", "org.pixl8.cfconcurrent.LuceeRunnable", _getLuceeLib() ).init(
+			  arguments.object                         // runnableCfc
+			, ExpandPath( "/" )                        // contextRoot
+			, getPageContext().getApplicationContext() // appContext
+			, JavaCast( "Long", 50000 )                // default, 50 seconds
+		);
+	}
+
+	public function createLuceeCallableProxy( object ) {
+		return CreateObject( "java", "org.pixl8.cfconcurrent.LuceeCallable", _getLuceeLib() ).init(
+			  arguments.object                         // runnableCfc
+			, ExpandPath( "/" )                        // contextRoot
+			, getPageContext().getApplicationContext() // appContext
+			, JavaCast( "Long", 50000 )                // default, 50 seconds
+		);
 	}
 
 	public function ensureRunnableTask( task ){
@@ -127,5 +151,14 @@ component output="false" accessors="true"{
 
 	public function isRunnable( object ){
 		return isObject( object ) AND structKeyExists( object, "run" );
+	}
+
+// helpers
+	private boolean function _isLucee() {
+		return StructKeyExists( server, "lucee" );
+	}
+
+	private array function _getLuceeLib() {
+		return DirectoryList( GetDirectoryFromPath( GetCurrentTemplatePath() ) & "/luceelib", false, "path", "*.jar" );
 	}
 }

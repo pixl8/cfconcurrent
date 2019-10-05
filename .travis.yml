@@ -1,4 +1,6 @@
-language: java
+language: python
+python:
+  - "3.5"
 jdk:
   - oraclejdk8
 before_install:
@@ -8,8 +10,11 @@ install:
   - curl --location 'https://www.ortussolutions.com/parent/download/commandbox/type/bin' -o /tmp/box.zip
   - unzip /tmp/box.zip -d /tmp/bin
   - box config set nonInteractiveShell=true
+  - pip install awscli
 script:
-  - ./build/tests/runtests.sh && ./build/publish.sh
+  - ./build/javabuild.sh
+  - ./build/tests/runtests.sh
+  - ./build/publish.sh
 cache:
   directories:
     - $HOME/.CommandBox
