@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ $TRAVIS_TAG == v* ]] ; then
+if [[ $TRAVIS_TAG == v* || $TRAVIS_TAG == release-* ]] ; then
 	GIT_BRANCH=$TRAVIS_TAG
 	BRANCH_FOLDER=${GIT_BRANCH//origin\//}
 	BRANCH_FOLDER="${BRANCH_FOLDER##*/}"
@@ -24,7 +24,7 @@ if [[ $TRAVIS_TAG == v* ]] ; then
 	mkdir -p $BUILD_DIR
 
 	echo "Copying files to $BUILD_DIR..."
-	rsync -a ./ --exclude=".*" --exclude="$BUILD_DIR" --exclude="*.sh" --exclude="**/node_modules" --exclude="*.log" --exclude="tests" "$BUILD_DIR" || exit 1
+	rsync -a ./ --exclude=".*" --exclude="$BUILD_DIR" --exclude="*.sh" --exclude="build" --exclude="*.log" "$BUILD_DIR" || exit 1
 	echo "Done."
 
 	cd $BUILD_DIR
@@ -37,7 +37,7 @@ if [[ $TRAVIS_TAG == v* ]] ; then
 	zip -rq $ZIP_FILE * -x jmimemagic.log || exit 1
 	mv $ZIP_FILE ../
 	cd ../
-	find ./*.zip -exec aws s3 cp {} s3://pixl8-public-packages/data-api/ --acl public-read \;
+	find ./*.zip -exec aws s3 cp {} s3://pixl8-public-packages/cfconcurrent/ --acl public-read \;
 
     cd $BUILD_DIR;
     CWD="`pwd`";
