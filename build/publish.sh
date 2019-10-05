@@ -1,22 +1,21 @@
 #!/bin/bash
 
-if [[ $TRAVIS_TAG == v* || $TRAVIS_TAG == release-* ]] ; then
-	GIT_BRANCH=$TRAVIS_TAG
-	BRANCH_FOLDER=${GIT_BRANCH//origin\//}
-	BRANCH_FOLDER="${BRANCH_FOLDER##*/}"
-	ZIP_FILE=$BRANCH_FOLDER.zip
-	BUILD_DIR=build/
-	PADDED_BUILD_NUMBER=`printf %05d $TRAVIS_BUILD_NUMBER`
-
-	if [[ $GIT_BRANCH == v* ]] ; then
-		VERSION_NUMBER="${GIT_BRANCH//v}.$PADDED_BUILD_NUMBER"
-	else
-		VERSION_NUMBER="${GIT_BRANCH//release-}.$PADDED_BUILD_NUMBER-SNAPSHOT"
+if [[ $TRAVIS_TAG == v* ]] || [[ $TRAVIS_BRANCH == release* ]] ; then
+	if [[ $TRAVIS_TAG == v* ]] ; then
+		BUILD_NUMBER=`printf %07d $TRAVIS_BUILD_NUMBER`
+		VERSION_NUMBER="${TRAVIS_TAG//v}+${BUILD_NUMBER}"
+		ZIP_FILE="cfconcurrent-${TRAVIS_TAG//v}-${BUILD_NUMBER}.zip"
+		RELEASE_NAME="stable"
+	elif [[ $TRAVIS_BRANCH == release* ]] ; then
+		VERSION_NUMBER="${TRAVIS_BRANCH//release-}-SNAPSHOT${TRAVIS_BUILD_NUMBER}"
+		ZIP_FILE="cfconcurrent-${TRAVIS_BRANCH//release-}-SNAPSHOT${TRAVIS_BUILD_NUMBER}.zip"
+		RELEASE_NAME="bleeding-edge"
 	fi
+
+	BUILD_DIR=build/
 
 	echo "Building CFConcurrent"
 	echo "====================="
-	echo "GIT Branch      : $GIT_BRANCH"
 	echo "Version number  : $VERSION_NUMBER"
 	echo
 
@@ -48,9 +47,6 @@ else
 	echo "Not publishing. This is not a tagged release.";
 fi
 
-cd ../
-
-rm -rf $BRANCH_FOLDER || exit 1
 echo done
 
 echo "Build complete :)"
