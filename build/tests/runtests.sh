@@ -9,7 +9,7 @@ exitcode=0
 
 box stop name="cfconcurrenttests"
 
-declare -a engines=("lucee@4.5.5" "adobe@11" "adobe@2016" "adobe@2018" )
+declare -a engines=("lucee@5","lucee@4.5.5" "adobe@11" "adobe@2016" "adobe@2018" )
 
 ## now loop through the above array
 for engine in "${engines[@]}"
