@@ -23,7 +23,7 @@ if [[ $TRAVIS_TAG == v* ]] || [[ $TRAVIS_BRANCH == release* ]] ; then
 	mkdir -p $BUILD_DIR
 
 	echo "Copying files to $BUILD_DIR..."
-	rsync -a ./ --exclude=".*" --exclude="$BUILD_DIR" --exclude="*.sh" --exclude="build" --exclude="*.log" "$BUILD_DIR" || exit 1
+	rsync -a ./ --exclude=".*" --exclude="$BUILD_DIR" --exclude="*.sh" --exclude="build" --exclude="examples" --exclude="*.log" "$BUILD_DIR" || exit 1
 	echo "Done."
 
 	cd $BUILD_DIR
