@@ -86,13 +86,13 @@ component output="false" accessors="true"{
 
 	public function createSubmittableProxy( object ){
 		if( isCallable( object ) ){
-			if ( _isLucee() ) {
+			if ( _isLucee5() ) {
 				return createLuceeCallableProxy( object );
 			}
 			return createProxy( object, callableInterfaces );
 		}
 		if( isRunnable( object ) ){
-			if ( _isLucee() ) {
+			if ( _isLucee5() ) {
 				return createLuceeRunnableProxy( object );
 			}
 			return createProxy( object, runnableInterfaces );
@@ -103,7 +103,7 @@ component output="false" accessors="true"{
 
 	public function createRunnableProxy( object ){
 		ensureRunnableTask( object );
-		if ( _isLucee() ) {
+		if ( _isLucee5() ) {
 			return createLuceeRunnableProxy( object );
 		}
 		return createProxy( object, runnableInterfaces );
@@ -111,7 +111,7 @@ component output="false" accessors="true"{
 
 	public function createCallableProxy( object ){
 		ensureCallableTask( object );
-		if ( _isLucee() ) {
+		if ( _isLucee5() ) {
 			return createLuceeCallableProxy( object );
 		}
 		return createProxy( object, callableInterfaces );
@@ -158,8 +158,8 @@ component output="false" accessors="true"{
 	}
 
 // helpers
-	private boolean function _isLucee() {
-		return StructKeyExists( server, "lucee" );
+	private boolean function _isLucee5() {
+		return StructKeyExists( server, "lucee" ) && Val( ListFirst( server.lucee.version ?: "", "." ) ) >= 5;
 	}
 
 	private array function _getLuceeLib() {
