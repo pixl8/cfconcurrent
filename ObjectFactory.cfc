@@ -126,7 +126,6 @@ component output="false" accessors="true"{
 			  arguments.object                         // runnableCfc
 			, ExpandPath( "/" )                        // contextRoot
 			, getPageContext().getApplicationContext() // appContext
-			, JavaCast( "Long", 50000 )                // default, 50 seconds
 		);
 	}
 
@@ -135,7 +134,6 @@ component output="false" accessors="true"{
 			  arguments.object                         // runnableCfc
 			, ExpandPath( "/" )                        // contextRoot
 			, getPageContext().getApplicationContext() // appContext
-			, JavaCast( "Long", 50000 )                // default, 50 seconds
 		);
 	}
 
