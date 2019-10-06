@@ -7,7 +7,7 @@ CFConcurrent simplifies the use of the Java Concurrency Framework
 ([java tutorial](http://docs.oracle.com/javase/tutorial/essential/concurrency/executors.html) | [javadoc](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/package-summary.html))
 in ColdFusion applications. 
 
-CFConcurrent runs on **CF10+** and **Lucee 4.5.5**.
+CFConcurrent runs on **CF11** or higher, and **Lucee 4.5.5** or higher.
 
 ### THIS IS A FORK
 
@@ -25,7 +25,7 @@ We have, of course, reached out to Marc who sent us his blessing via tweet:
 
 **ColdFusion 9**: A user recently discovered that a massive memory leak exists when running this on CF9. Therefore, **it is not safe to use this library on Adobe ColdFusion 9**. The problem is not in the library but in the interaction between Java executors and ColdFusion. I will attempt to work with Adobe to identify a fix.  ColdFusion 10 is unaffected and behaves as expected.
 
-**LUCEE 5**: As of Lucee 5.2.7, CFConcurrent does not work due to the Lucee bug [LDEV-1778](https://luceeserver.atlassian.net/browse/LDEV-1778). When this is resolved, CFConcurrent should work perfectly with Lucee 5.
+**LUCEE 5**: CfConcurrent previosly had multiple issues with Lucee 5. We believe these are now resolved as of CfConcurrent 2.1.0 (but please test thoroughly).
 
 
 # Preamble
