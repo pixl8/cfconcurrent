@@ -86,9 +86,15 @@ component output="false" accessors="true"{
 
 	public function createSubmittableProxy( object ){
 		if( isCallable( object ) ){
+			if ( _isLucee() ) {
+				return createLuceeCallableProxy( object );
+			}
 			return createProxy( object, callableInterfaces );
 		}
 		if( isRunnable( object ) ){
+			if ( _isLucee() ) {
+				return createLuceeRunnableProxy( object );
+			}
 			return createProxy( object, runnableInterfaces );
 		}
 
