@@ -37,17 +37,7 @@ public class LuceeCallable implements Callable {
 // THE RUNNABLE BIT
 	@Override
 	public Object call() throws Exception {
-		Object result = null;
-
-		try {
-			result = callableCfc.call( _getPageContext(), "call", new Object[0] );
-		} catch( PageException e ) {
-			e.printStackTrace();
-		} catch( ServletException e ) {
-			e.printStackTrace();
-		}
-
-		return result;
+		return callableCfc.call( _getPageContext(), "call", new Object[0] );
 	}
 
 // PRIVATE HELPERS
