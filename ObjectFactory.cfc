@@ -86,9 +86,15 @@ component output="false" accessors="true"{
 
 	public function createSubmittableProxy( object ){
 		if( isCallable( object ) ){
+			if ( _isLucee5() ) {
+				return createLuceeCallableProxy( object );
+			}
 			return createProxy( object, callableInterfaces );
 		}
 		if( isRunnable( object ) ){
+			if ( _isLucee5() ) {
+				return createLuceeRunnableProxy( object );
+			}
 			return createProxy( object, runnableInterfaces );
 		}
 
@@ -97,16 +103,38 @@ component output="false" accessors="true"{
 
 	public function createRunnableProxy( object ){
 		ensureRunnableTask( object );
+		if ( _isLucee5() ) {
+			return createLuceeRunnableProxy( object );
+		}
 		return createProxy( object, runnableInterfaces );
 	}
 
 	public function createCallableProxy( object ){
 		ensureCallableTask( object );
+		if ( _isLucee5() ) {
+			return createLuceeCallableProxy( object );
+		}
 		return createProxy( object, callableInterfaces );
 	}
 
 	public function createProxy( object, interfaces ){
 		return createDynamicProxy( arguments.object, arguments.interfaces );
+	}
+
+	public function createLuceeRunnableProxy( object ) {
+		return CreateObject( "java", "org.pixl8.cfconcurrent.LuceeRunnable", _getLuceeLib() ).init(
+			  arguments.object                         // runnableCfc
+			, ExpandPath( "/" )                        // contextRoot
+			, getPageContext().getApplicationContext() // appContext
+		);
+	}
+
+	public function createLuceeCallableProxy( object ) {
+		return CreateObject( "java", "org.pixl8.cfconcurrent.LuceeCallable", _getLuceeLib() ).init(
+			  arguments.object                         // runnableCfc
+			, ExpandPath( "/" )                        // contextRoot
+			, getPageContext().getApplicationContext() // appContext
+		);
 	}
 
 	public function ensureRunnableTask( task ){
@@ -127,5 +155,14 @@ component output="false" accessors="true"{
 
 	public function isRunnable( object ){
 		return isObject( object ) AND structKeyExists( object, "run" );
+	}
+
+// helpers
+	private boolean function _isLucee5() {
+		return StructKeyExists( server, "lucee" ) && Val( ListFirst( server.lucee.version ?: "", "." ) ) >= 5;
+	}
+
+	private array function _getLuceeLib() {
+		return DirectoryList( GetDirectoryFromPath( GetCurrentTemplatePath() ) & "/luceelib", false, "path", "*.jar" );
 	}
 }
