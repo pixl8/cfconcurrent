@@ -126,6 +126,7 @@ component output="false" accessors="true"{
 			  arguments.object                         // runnableCfc
 			, ExpandPath( "/" )                        // contextRoot
 			, getPageContext().getApplicationContext() // appContext
+			, cgi.http_host ?: ""                      // host
 		);
 	}
 
@@ -134,6 +135,7 @@ component output="false" accessors="true"{
 			  arguments.object                         // runnableCfc
 			, ExpandPath( "/" )                        // contextRoot
 			, getPageContext().getApplicationContext() // appContext
+			, cgi.http_host ?: ""                      // host
 		);
 	}
 

@@ -18,14 +18,16 @@ public class LuceeCfcProxy {
 	private File               contextRoot;
 	private ApplicationContext appContext;
 	private Long               oneHundredYearsInMs;
+	private String             host;
 
 // CONSTRUCTOR
-	public LuceeCfcProxy( Component proxiedCfc, String contextRoot, ApplicationContext appContext ) throws PageException, ServletException {
+	public LuceeCfcProxy( Component proxiedCfc, String contextRoot, ApplicationContext appContext, String host ) throws PageException, ServletException {
 		this.lucee               = CFMLEngineFactory.getInstance();
 		this.proxiedCfc          = proxiedCfc;
 		this.contextRoot         = new File( contextRoot );
 		this.appContext          = appContext;
 		this.oneHundredYearsInMs = Long.valueOf( 1000 * 60 * 60 * 24 * 356 * 100 );
+		this.host                = host;
 	}
 
 // PUBLIC METHODS
@@ -43,7 +45,7 @@ public class LuceeCfcProxy {
 
 		PageContext pc = lucee.createPageContext(
 			  contextRoot
-			, "localhost"         // host
+			, host              // host
 			, "/"                 // script name
 			, ""                  // query string
 			, cookies		      // cookies
