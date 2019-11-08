@@ -48,14 +48,14 @@ component extends="AbstractExecutorService" accessors="true" output="false"{
 	* @timeout Maximum time to wait. 0 indicates to wait until completion
 	* @timeUnit TimeUnit of the timeout argument. Defaults to TimeUnit.SECONDS.
 	*/
-	public function invokeAll( array tasks, timeout=0, timeUnit="#objectFactory.SECONDS#" ){
+	public function invokeAll( array tasks, timeout=0, timeUnit="#objectFactory.SECONDS#", hostname=cgi.server_name ){
 		var results = [];
 		var proxies = [];
 
 		if( isStarted() ){
 
 			for( var task in tasks ){
-				arrayAppend( proxies, objectFactory.createSubmittableProxy( task ) );
+				arrayAppend( proxies, objectFactory.createSubmittableProxy( task, hostname ) );
 			}
 			if( timeout LTE 0 ){
 				return getSubmissionTarget().invokeAll( proxies );
@@ -77,14 +77,14 @@ component extends="AbstractExecutorService" accessors="true" output="false"{
 	* @timeout Maximum time to wait. 0 indicates to wait until completion
 	* @timeUnit TimeUnit of the timeout argument. Defaults to TimeUnit.SECONDS
 	*/
-	public function invokeAny( array tasks, timeout=0, timeUnit="#objectFactory.SECONDS#" ){
+	public function invokeAny( array tasks, timeout=0, timeUnit="#objectFactory.SECONDS#", hostname=cgi.server_name ){
 		var results = [];
 		var proxies = [];
 
 		if( isStarted() ){
 
 			for( var task in tasks ){
-				arrayAppend( proxies, objectFactory.createSubmittableProxy( task ) );
+				arrayAppend( proxies, objectFactory.createSubmittableProxy( task, hostname ) );
 			}
 			if( timeout LTE 0 ){
 				return getSubmissionTarget().invokeAny( proxies );
@@ -105,8 +105,8 @@ component extends="AbstractExecutorService" accessors="true" output="false"{
 
 	* @runnableTask A task instance that exposes a void run() method
 	*/
-	public function execute( runnableTask ){
-		var proxy = objectFactory.createRunnableProxy( runnableTask );
+	public function execute( runnableTask, hostname=cgi.server_name ){
+		var proxy = objectFactory.createRunnableProxy( runnableTask, hostname );
 		getSubmissionTarget().execute( proxy );
 	}
 

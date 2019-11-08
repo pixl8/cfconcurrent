@@ -28,10 +28,10 @@ component extends="ExecutorService" accessors="true" output="false"{
 		return this;
 	}
 
-	public function scheduleAtFixedRate( id, task, initialDelay, period, timeUnit="#objectFactory.SECONDS#" ){
+	public function scheduleAtFixedRate( id, task, initialDelay, period, timeUnit="#objectFactory.SECONDS#", hostname=cgi.server_name ){
 		cancelTask( id );
 		var future = scheduledExecutor.scheduleAtFixedRate(
-			objectFactory.createRunnableProxy( task ),
+			objectFactory.createRunnableProxy( task, hostname ),
 			initialDelay,
 			period,
 			timeUnit
@@ -40,10 +40,10 @@ component extends="ExecutorService" accessors="true" output="false"{
 		return future;
 	}
 
-	public function scheduleWithFixedDelay( id, task, initialDelay, delay, timeUnit="#objectFactory.SECONDS#" ){
+	public function scheduleWithFixedDelay( id, task, initialDelay, delay, timeUnit="#objectFactory.SECONDS#", hostname=cgi.server_name ){
 		cancelTask( id );
 		var future = scheduledExecutor.scheduleWithFixedDelay(
-			objectFactory.createRunnableProxy( task ),
+			objectFactory.createRunnableProxy( task, hostname ),
 			initialDelay,
 			delay,
 			timeUnit

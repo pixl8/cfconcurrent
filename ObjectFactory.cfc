@@ -84,16 +84,16 @@ component output="false" accessors="true"{
 		return createRejectionPolicyByName("CallerRunsPolicy");
 	}
 
-	public function createSubmittableProxy( object ){
+	public function createSubmittableProxy( object, hostname=cgi.server_name ){
 		if( isCallable( object ) ){
 			if ( _isLucee5() ) {
-				return createLuceeCallableProxy( object );
+				return createLuceeCallableProxy( object, hostname );
 			}
 			return createProxy( object, callableInterfaces );
 		}
 		if( isRunnable( object ) ){
 			if ( _isLucee5() ) {
-				return createLuceeRunnableProxy( object );
+				return createLuceeRunnableProxy( object, hostname );
 			}
 			return createProxy( object, runnableInterfaces );
 		}
@@ -101,18 +101,18 @@ component output="false" accessors="true"{
 		throw("Task must have either a call() or run() method", "TaskNotSubmittable");
 	}
 
-	public function createRunnableProxy( object ){
+	public function createRunnableProxy( object, hostname=cgi.server_name ){
 		ensureRunnableTask( object );
 		if ( _isLucee5() ) {
-			return createLuceeRunnableProxy( object );
+			return createLuceeRunnableProxy( object, hostname );
 		}
 		return createProxy( object, runnableInterfaces );
 	}
 
-	public function createCallableProxy( object ){
+	public function createCallableProxy( object, hostname=cgi.server_name ){
 		ensureCallableTask( object );
 		if ( _isLucee5() ) {
-			return createLuceeCallableProxy( object );
+			return createLuceeCallableProxy( object, hostname );
 		}
 		return createProxy( object, callableInterfaces );
 	}
@@ -121,21 +121,21 @@ component output="false" accessors="true"{
 		return createDynamicProxy( arguments.object, arguments.interfaces );
 	}
 
-	public function createLuceeRunnableProxy( object ) {
+	public function createLuceeRunnableProxy( object, string hostname=cgi.server_name ) {
 		return CreateObject( "java", "org.pixl8.cfconcurrent.LuceeRunnable", _getLuceeLib() ).init(
 			  arguments.object                         // runnableCfc
 			, ExpandPath( "/" )                        // contextRoot
 			, getPageContext().getApplicationContext() // appContext
-			, cgi.server_name ?: ""                    // host
+			, arguments.hostName                       // host
 		);
 	}
 
-	public function createLuceeCallableProxy( object ) {
+	public function createLuceeCallableProxy( object, string hostname=cgi.server_name ) {
 		return CreateObject( "java", "org.pixl8.cfconcurrent.LuceeCallable", _getLuceeLib() ).init(
 			  arguments.object                         // runnableCfc
 			, ExpandPath( "/" )                        // contextRoot
 			, getPageContext().getApplicationContext() // appContext
-			, cgi.server_name ?: ""                    // host
+			, arguments.hostName                       // host
 		);
 	}
 
