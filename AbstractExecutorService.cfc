@@ -87,10 +87,10 @@ component output="false" accessors="true"{
 	* If the service is not running, tasks are ignored
 	* @task A task instance. Object must expose either a call() or run() method.
 	*/
-	public function submit( task ){
+	public function submit( task, hostname=cgi.server_name ){
 
 		if( isStarted() ){
-			var proxy = objectFactory.createSubmittableProxy( task );
+			var proxy = objectFactory.createSubmittableProxy( task, hostname );
 			return getSubmissionTarget().submit( proxy );
 
 		} else if( isPaused() ) {

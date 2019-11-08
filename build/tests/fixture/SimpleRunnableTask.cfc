@@ -1,12 +1,12 @@
 component{
 
 	results = { created = now(), createTick = getTickCount(), error={}, runCount = 0 };
-	
+
 	function init( id ){
 		results.id = arguments.id;
 		return this;
 	}
-	
+
 	function run(){
 		try{
 			results.runCount++;
@@ -16,9 +16,9 @@ component{
 			results.error = e;
 		}
 		results.lastTick = getTickCount();
-		
+		results.hostname = cgi.server_name;
 	}
-	
+
 	function getResults(){
 		return results;
 	}

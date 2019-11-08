@@ -33,7 +33,7 @@ component extends="testbox.system.BaseSpec"{
 				expect( StructCount( service.getThisStorageScope() ) ).toBe( 0 );
 			} );
 
-			it( "should scheduled tasks at a fixed rate", function(){
+			it( "should schedule tasks at a fixed rate", function(){
 				service.start();
 				var task1 = new fixture.SimpleRunnableTask("task1");
 				var task2 = new fixture.SimpleRunnableTask("task2");
@@ -59,6 +59,33 @@ component extends="testbox.system.BaseSpec"{
 				expect( ArrayLen( queue.toArray() ) ).toBe( 0 );
 				expect( StructCount( service.getStoredTasks() ) ).toBe( 0 );
 			} );
+
+			it( title="should schedule tasks with the current host name on Lucee if none specified", skip=_notLucee5OrGreater, body=function(){
+				service.start();
+				var task1 = new fixture.SimpleRunnableTask("task1");
+				var future1 = service.scheduleAtFixedRate("task1", task1, 0, 100, objectFactory.MILLISECONDS );
+
+				sleep(500);
+				var task1Results = task1.getResults();
+				expect( task1Results.hostname ).toBe( cgi.server_name );
+			} );
+
+			it( title="should schedule tasks with a specified host name on Lucee", skip=_notLucee5OrGreater, body=function(){
+				service.start();
+				var dummyHostname = CreateUUId();
+				var task1 = new fixture.SimpleRunnableTask("task1");
+				var future1 = service.scheduleAtFixedRate("task1", task1, 0, 100, objectFactory.MILLISECONDS, dummyHostname );
+
+				sleep(500);
+				var task1Results = task1.getResults();
+				expect( task1Results.hostname ).toBe( dummyHostname );
+			} );
 		} );
+	}
+
+	private boolean function _notLucee5OrGreater() {
+		var isLucee5OrGreater = StructKeyExists( server, "lucee" ) && Val( ListFirst( server.lucee.version ?: "", "." ) ) >= 5;
+
+		return !isLucee5OrGreater;
 	}
 }
