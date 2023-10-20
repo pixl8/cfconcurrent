@@ -10,8 +10,8 @@ public class LuceeCallable implements Callable {
 	private LuceeCfcProxy proxy;
 
 // CONSTRUCTOR
-	public LuceeCallable( Component callableCfc ) throws PageException, ServletException {
-		this.proxy = new LuceeCfcProxy( callableCfc );
+	public LuceeCallable( Component callableCfc, String contextRoot, ApplicationContext appContext, String host ) throws PageException, ServletException {
+		this.proxy = new LuceeCfcProxy( callableCfc, contextRoot, appContext, host );
 	}
 
 // THE RUNNABLE BIT
