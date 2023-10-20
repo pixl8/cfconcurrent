@@ -24,7 +24,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build jars
-        run: cd build/java-src && mvn package && mvn cp artifacts/cfconcurrent-2.1.1.jar ../../luceelib/
+        run: cd build/java-src && mvn package && cp artifacts/cfconcurrent-2.1.1.jar ../../luceelib/
 
       - name: Install dependencies
         uses: pixl8/github-action-box-install@v2
