@@ -29,7 +29,7 @@ jobs:
       - name: Install dependencies
         uses: pixl8/github-action-box-install@v2
         with:
-          boxjson_dir: /builds/tests
+          boxjson_dir: /build/tests
 
       - name: Run tests
         uses: pixl8/github-action-box-test@v3
