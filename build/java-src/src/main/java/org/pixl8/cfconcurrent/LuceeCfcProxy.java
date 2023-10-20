@@ -13,7 +13,6 @@ import lucee.runtime.listener.ApplicationContext;
 import java.util.HashMap;
 
 public class LuceeCfcProxy {
-	private CFMLEngine         lucee;
 	private Component          proxiedCfc;
 	private File               contextRoot;
 	private ApplicationContext appContext;
@@ -22,7 +21,6 @@ public class LuceeCfcProxy {
 
 // CONSTRUCTOR
 	public LuceeCfcProxy( Component proxiedCfc, String contextRoot, ApplicationContext appContext, String host ) throws PageException, ServletException {
-		this.lucee               = CFMLEngineFactory.getInstance();
 		this.proxiedCfc          = proxiedCfc;
 		this.contextRoot         = new File( contextRoot );
 		this.appContext          = appContext;
@@ -36,11 +34,18 @@ public class LuceeCfcProxy {
 	}
 
 	public Object callMethod( String methodName, Object[] args ) throws PageException, ServletException {
-		return proxiedCfc.call( _getPageContext(), methodName, args );
+		CFMLEngine lucee = CFMLEngineFactory.getInstance();
+		PageContext pc   = _getPageContext( lucee );
+
+		try {
+			return proxiedCfc.call( pc, methodName, args );
+		} finally {
+			lucee.releasePageContext( pc, true );
+		}
 	}
 
 // PRIVATE HELPERS
-	private PageContext _getPageContext() throws ServletException {
+	private PageContext _getPageContext( CFMLEngine lucee ) throws ServletException {
 		javax.servlet.http.Cookie[] cookies = new Cookie[]{};
 
 		PageContext pc = lucee.createPageContext(
@@ -56,6 +61,7 @@ public class LuceeCfcProxy {
 			, oneHundredYearsInMs // timeout for the simulated request in milli seconds
 			, true                // register the pc to the thread
 		);
+		lucee.registerThreadPageContext( pc );
 
 		pc.setApplicationContext( appContext );
 
