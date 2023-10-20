@@ -122,21 +122,11 @@ component output="false" accessors="true"{
 	}
 
 	public function createLuceeRunnableProxy( object, string hostname=cgi.server_name ) {
-		return CreateObject( "java", "org.pixl8.cfconcurrent.LuceeRunnable", _getLuceeLib() ).init(
-			  arguments.object                         // runnableCfc
-			, ExpandPath( "/" )                        // contextRoot
-			, getPageContext().getApplicationContext() // appContext
-			, arguments.hostName                       // host
-		);
+		return CreateObject( "java", "org.pixl8.cfconcurrent.LuceeRunnable", _getLuceeLib() ).init( arguments.object );
 	}
 
 	public function createLuceeCallableProxy( object, string hostname=cgi.server_name ) {
-		return CreateObject( "java", "org.pixl8.cfconcurrent.LuceeCallable", _getLuceeLib() ).init(
-			  arguments.object                         // runnableCfc
-			, ExpandPath( "/" )                        // contextRoot
-			, getPageContext().getApplicationContext() // appContext
-			, arguments.hostName                       // host
-		);
+		return CreateObject( "java", "org.pixl8.cfconcurrent.LuceeCallable", _getLuceeLib() ).init( arguments.object );
 	}
 
 	public function ensureRunnableTask( task ){

@@ -10,7 +10,7 @@
 		<dependency>
 			<groupId>org.lucee</groupId>
 			<artifactId>lucee</artifactId>
-			<version>5.3.3.60-RC</version>
+			<version>5.4.3.16</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -28,8 +28,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.0</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>11</source>
+					<target>11</target>
 					<includes>
 						<include>org/pixl8/cfconcurrent/*.java</include>
 					</includes>
