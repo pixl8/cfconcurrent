@@ -9,8 +9,8 @@ public class LuceeRunnable implements Runnable {
 	private LuceeCfcProxy proxy;
 
 // CONSTRUCTOR
-	public LuceeRunnable( Component runnableCfc, String contextRoot, ApplicationContext appContext, String host ) throws PageException, ServletException {
-		this.proxy = new LuceeCfcProxy( runnableCfc, contextRoot, appContext, host );
+	public LuceeRunnable( Component runnableCfc ) throws PageException, ServletException {
+		this.proxy = new LuceeCfcProxy( runnableCfc );
 	}
 
 // THE RUNNABLE BIT
