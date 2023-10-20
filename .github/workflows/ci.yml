@@ -32,7 +32,7 @@ jobs:
       - name: Run tests
         uses: pixl8/github-action-box-test@v3
         with:
-          boxjson_dir: /
+          boxjson_dir: /build/tests
           test_dir: /build/tests
           test_server_json: /build/tests/server-cfconcurrenttests.json
           output_file: /build/tests/test-results.txt
