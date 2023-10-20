@@ -107,7 +107,7 @@ component extends="testbox.system.BaseSpec"{
 				expect( task.getResults().runCount ).toBe( 1 );
 			} );
 
-			it( title="should execute task with 'lucee' hostname for lucee tasks", skip=_notLucee5OrGreater, body=function(){
+			it( title="should execute task with parent request hostname for lucee tasks when no hostname specified", skip=_notLucee5OrGreater, body=function(){
 				var task = new fixture.SimpleRunnableTask(1);
 
 				//guard
@@ -117,7 +117,21 @@ component extends="testbox.system.BaseSpec"{
 				sleep(1000);
 
 				expect( task.getResults().runCount ).toBe( 1 );
-				expect( task.getResults().hostname ).toBe( "lucee" );
+				expect( task.getResults().hostname ).toBe( cgi.server_name );
+			} );
+
+			it( title="should execute task with passed hostname for lucee tasks", skip=_notLucee5OrGreater, body=function(){
+				var task = new fixture.SimpleRunnableTask(1);
+				var dummyHostname = CreateUUId();
+
+				//guard
+				expect( task.getResults().runCount ).toBe( 0 );
+
+				service.execute( task, dummyHostname );
+				sleep(1000);
+
+				expect( task.getResults().runCount ).toBe( 1 );
+				expect( task.getResults().hostname ).toBe( dummyHostname );
 			} );
 
 			it( "should allow customization of thread names", function(){
