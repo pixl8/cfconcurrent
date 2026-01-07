@@ -1,6 +1,6 @@
 {
     "dependencies":{
-        "testbox":"5.4.0"
+        "testbox":"6.4.0"
     },
     "installPaths":{
         "testbox":"testbox/"
