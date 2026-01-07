@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.0
+
+* Add support for Lucee running on jakarta jee (i.e. Lucee 7)
+* Convert to github actions for build
+* Add test run in build for boxlang and fix some small compat issues with that
+
 ## 2.1.3
 
 * Add ability for Lucee 5 or greater to specify a hostname that will be set for any runnable or callable.
