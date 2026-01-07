@@ -164,7 +164,7 @@ component output="false" accessors="true"{
 		if( NOT structIsEmpty( getThisStorageScope() ) ){
 			var scope = getThisStorageScope();
 			for( var executor in scope ){
-				writeLog("Waiting #timeout# #timeUnit# for tasks to complete and then shutting down executor named #executor#");
+				writeLog("Waiting #timeout# #timeUnit.toString()# for tasks to complete and then shutting down executor named #executor#");
 				scope[executor].shutDown();
 				var stopped = scope[executor].awaitTermination( timeout, timeUnit );
 				if(NOT stopped){

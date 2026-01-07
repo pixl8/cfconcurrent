@@ -2,10 +2,10 @@ component output="false" accessors="true"{
 
 	property name="cfcDynamicProxy";
 
-	callableInterfaces = ["java.util.concurrent.Callable"];
-	runnableInterfaces = ["java.lang.Runnable"];
+	callableInterfaces      = ["java.util.concurrent.Callable"];
+	runnableInterfaces      = ["java.lang.Runnable"];
 	threadFactoryInterfaces = ["java.util.concurrent.ThreadFactory"];
-	timeUnit = createTimeUnit();
+	timeUnit                = createTimeUnit();
 
 	//conveniences... we work a lot with timeunit so let's make it a bit easier
 	this.nanoseconds = timeUnit.NANOSECONDS;
