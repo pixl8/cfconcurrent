@@ -75,8 +75,8 @@ component extends="AbstractExecutorService" accessors="true" output="false"{
 
 	private function scheduleCompletionTask(){
 		logMessage("Starting to schedule completion task");
-		if( structKeyExists( variables, "completionQueueProcessService") AND NOT isSimpleValue(variables.completionQueueProcessTask) ){
-			logMessage( "scheduling completion task at rate of #completionQueueProcessFrequency# #comletionQueueProcessTimeUnit#" );
+		if( structKeyExists( variables, "completionQueueProcessService") AND NOT isSimpleValue(completionQueueProcessTask) AND NOT IsNull( completionQueueProcessService )  ){
+			logMessage( "scheduling completion task at rate of #completionQueueProcessFrequency# #comletionQueueProcessTimeUnit.toString()#" );
 			completionQueueProcessTask.setExecutorCompletionService( getExecutorCompletionService() );
 			return completionQueueProcessService.scheduleAtFixedRate( completionQueueProcessTaskID, completionQueueProcessTask, completionQueueProcessFrequency, completionQueueProcessFrequency, comletionQueueProcessTimeUnit);
 		}

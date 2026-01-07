@@ -2,10 +2,10 @@ component output="false" accessors="true"{
 
 	property name="cfcDynamicProxy";
 
-	callableInterfaces = ["java.util.concurrent.Callable"];
-	runnableInterfaces = ["java.lang.Runnable"];
+	callableInterfaces      = ["java.util.concurrent.Callable"];
+	runnableInterfaces      = ["java.lang.Runnable"];
 	threadFactoryInterfaces = ["java.util.concurrent.ThreadFactory"];
-	timeUnit = createTimeUnit();
+	timeUnit                = createTimeUnit();
 
 	//conveniences... we work a lot with timeunit so let's make it a bit easier
 	this.nanoseconds = timeUnit.NANOSECONDS;
@@ -165,6 +165,24 @@ component output="false" accessors="true"{
 	}
 
 	private array function _getLuceeLib() {
-		return DirectoryList( GetDirectoryFromPath( GetCurrentTemplatePath() ) & "/luceelib", false, "path", "*.jar" );
+		var basePath = GetDirectoryFromPath( GetCurrentTemplatePath() ) & "/luceelib/";
+		if ( _isJakarta() ) {
+			return [ basePath & "cfconcurrent-jakarta.jar" ];
+		}
+
+		return [ basePath & "cfconcurrent.jar" ];
+	}
+
+	private boolean function _isJakarta() {
+		if ( !StructKeyExists( variables, "isJakarta" ) ) {
+			try {
+				createObject( "java", "jakarta.servlet.ServletException" );
+				variables.isJakarta = true;
+			} catch( any e ) {
+				variables.isJakarta = false;
+			}
+		}
+
+		return variables.isJakarta;
 	}
 }
