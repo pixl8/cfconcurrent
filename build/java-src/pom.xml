@@ -51,23 +51,6 @@
 					</descriptorRefs>
 				</configuration>
 			</plugin>
-
-			<plugin>
-	            <artifactId>maven-antrun-plugin</artifactId>
-	            <configuration>
-	                <tasks>
-	                    <copy file="target/cfconcurrent-2.1.1-jar-with-dependencies.jar" tofile="artifacts/cfconcurrent-2.1.1.jar" />
-	                </tasks>
-	            </configuration>
-	            <executions>
-	                <execution>
-	                    <phase>package</phase>
-	                    <goals>
-	                        <goal>run</goal>
-	                    </goals>
-	                </execution>
-	            </executions>
-	        </plugin>
 		</plugins>
 	</build>
 </project>
