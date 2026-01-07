@@ -131,7 +131,6 @@ jobs:
         uses: pixl8/github-action-twgit-release-version-generator@v3
 
       - name: Inject version into box json
-        if: "env.PUBLISH == 'true'"
         uses: dominicwatson/github-action-envsubst@v1
         with:
           files: box.json
@@ -140,7 +139,6 @@ jobs:
           VERSION_NUMBER: ${{ steps.versiongen.outputs.semver_release_string }}
 
       - name: Zip project
-        if: "env.PUBLISH == 'true'"
 
         run: zip -rq $ZIP_FILE * --exclude=".*" --exclude="\.git/*" --exclude="\.github/*" --exclude="\build/*""
         shell: bash
@@ -148,7 +146,6 @@ jobs:
           ZIP_FILE: ${{ steps.versiongen.outputs.semver_release_number }}.zip
 
       - name: Create Release
-        if: "env.PUBLISH == 'true'"
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -160,7 +157,6 @@ jobs:
           prerelease: ${{ steps.versiongen.outputs.semver_release_is_snapshot }}
 
       - name: Upload Release Asset
-        if: "env.PUBLISH == 'true'"
         id: upload
         uses: actions/upload-release-asset@v1
         env:
@@ -172,7 +168,6 @@ jobs:
           asset_content_type: application/zip
 
       - name: Inject download location
-        if: "env.PUBLISH == 'true'"
         uses: DominicWatson/github-action-envsubst@stable
         with:
           files: box.json
@@ -180,7 +175,6 @@ jobs:
           DOWNLOAD_URL: ${{ steps.upload.outputs.browser_download_url }}
 
       - name: Publish to forgebox
-        if: "env.PUBLISH == 'true'"
         uses: pixl8/github-action-box-publish@v3
         with:
           forgebox_user: ${{ secrets.FORGEBOX_USER }}
