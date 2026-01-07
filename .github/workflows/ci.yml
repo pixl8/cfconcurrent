@@ -65,7 +65,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          box install --force --verbose
+          cd build/tests && box install --force --verbose
 
       - name: Start ${{ matrix.cfengine }} Server
         run: |
