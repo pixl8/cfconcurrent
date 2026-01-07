@@ -165,6 +165,24 @@ component output="false" accessors="true"{
 	}
 
 	private array function _getLuceeLib() {
-		return DirectoryList( GetDirectoryFromPath( GetCurrentTemplatePath() ) & "/luceelib", false, "path", "*.jar" );
+		var basePath = GetDirectoryFromPath( GetCurrentTemplatePath() ) & "/luceelib/";
+		if ( _isJakarta() ) {
+			return [ basePath & "cfconcurrent-jakarta.jar" ];
+		}
+
+		return [ basePath & "cfconcurrent.jar" ];
+	}
+
+	private boolean function _isJakarta() {
+		if ( !StructKeyExists( variables, "isJakarta" ) ) {
+			try {
+				createObject( "java", "jakarta.servlet.ServletException" );
+				variables.isJakarta = true;
+			} catch( any e ) {
+				variables.isJakarta = false;
+			}
+		}
+
+		return variables.isJakarta;
 	}
 }

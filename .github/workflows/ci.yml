@@ -19,7 +19,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cfconcurrent-java-artifacts
-          path: luceelib/cfconcurrent-*.jar
+          path: luceelib/*.jar
 
   runtests:
     name: Run tests
