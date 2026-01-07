@@ -47,6 +47,21 @@ jobs:
           - cfengine: "boxlang@stable"
             jdkVersion: "24"
             experimental: true
+          - cfengine: "adobe@11"
+            jdkVersion: "11"
+            experimental: false
+          - cfengine: "adobe@2016"
+            jdkVersion: "11"
+            experimental: false
+          - cfengine: "adobe@2018"
+            jdkVersion: "11"
+            experimental: false
+          - cfengine: "adobe@2023"
+            jdkVersion: "21"
+            experimental: false
+          - cfengine: "adobe@2025"
+            jdkVersion: "24"
+            experimental: false
     continue-on-error: ${{ matrix.experimental }}
     steps:
       - name: Checkout code
