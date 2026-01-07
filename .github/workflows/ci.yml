@@ -53,6 +53,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: cfconcurrent-java-artifacts
+          path: luceelib
 
       - name: Setup Java
         uses: actions/setup-java@v4
