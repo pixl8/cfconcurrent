@@ -1,0 +1,95 @@
+name: Auto test, build and publish
+on:
+  push:
+  pull_request:
+jobs:
+  javabuild:
+    name: Java build
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[twgit] Init') && github.ref != 'refs/heads/stable'"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Maven build
+        run: |
+          build/javabuild.sh
+      - name: Upload Java Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfconcurrent-java-artifacts
+          path: luceelib/cfconcurrent-*.jar
+
+  runtests:
+    name: Run tests
+    needs: javabuild
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[twgit] Init') && github.ref != 'refs/heads/stable'"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - cfengine: "lucee@5.4"
+            jdkVersion: "11"
+            experimental: false
+          - cfengine: "lucee@6.2"
+            jdkVersion: "21"
+            experimental: false
+          - cfengine: "lucee@7.0"
+            jdkVersion: "24"
+            experimental: false
+          - cfengine: "boxlang@stable"
+            jdkVersion: "24"
+            experimental: true
+    continue-on-error: ${{ matrix.experimental }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Java Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: cfconcurrent-java-artifacts
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ matrix.jdkVersion }}
+
+      - name: Setup CommandBox CLI
+        uses: Ortus-Solutions/setup-commandbox@v2.0.1
+
+      - name: Install dependencies
+        run: |
+          box install --force --verbose
+
+      - name: Start ${{ matrix.cfengine }} Server
+        run: |
+          # Startup the Server
+          box server start directory="${GITHUB_WORKSPACE}/build/tests" serverConfigFile="${GITHUB_WORKSPACE}/build/tests/server-cfconcurrenttests.json" cfengine="${{ matrix.cfengine }}" --noSaveSettings --debug
+          # Test site build up
+          curl http://127.0.0.1:6789
+
+      - name: Run tests
+        run: |
+          cd build/tests/
+          mkdir -p results
+          exitcode=0
+          box testbox run --verbose outputFile=results/test-results outputFormats=json,antjunit
+
+      - name: Upload Test Results Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfconcurrent-test-results-${{ matrix.cfengine }}-jdk${{ matrix.jdkVersion }}
+          path: |
+            tests/results/*
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: build/tests/results/*.xml
