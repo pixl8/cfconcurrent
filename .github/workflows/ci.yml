@@ -140,7 +140,7 @@ jobs:
 
       - name: Zip project
 
-        run: zip -rq $ZIP_FILE * --exclude=".*" --exclude="\.git/*" --exclude="\.github/*" --exclude="\build/*""
+        run: zip -rq $ZIP_FILE * --exclude=".*" --exclude="\.git/*" --exclude="\.github/*" --exclude="\build/*"
         shell: bash
         env:
           ZIP_FILE: ${{ steps.versiongen.outputs.semver_release_number }}.zip
